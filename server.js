@@ -1,21 +1,31 @@
+require("dotenv").config();
+
 const express = require("express");
+
+const connectDB = require("./src/config/db");
+
+const loggerMiddleware = require("./src/middleware/loggerMiddleware");
+
 const userRoute = require("./src/routes/userRoute");
 const healthRoute = require("./src/routes/healthRoute");
 const authRoute = require("./src/routes/authRoute");
-const connectDB = require("./src/config/db");
 const adminRoute = require("./src/routes/adminRoute");
+
 connectDB();
 
 const app = express();
-app.use("/api", adminRoute);
 
 app.use(express.json());
-app.use("/api", userRoute);
 
+app.use(loggerMiddleware);
+
+app.use("/api", userRoute);
 app.use("/api", healthRoute);
 app.use("/api", authRoute);
+app.use("/api", adminRoute);
 
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

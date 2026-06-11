@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Alert = require("../models/Alert");
 
 const registerUser = async (req, res) => {
 
@@ -77,11 +78,30 @@ const loginUser = async (req, res) => {
         );
 
         if (!isMatch) {
-            return res.status(400).json({
-                message: "Invalid Credentials"
-            });
-        }
 
+    user.failedLoginAttempts += 1;
+
+   if (user.failedLoginAttempts === 5) {
+
+    user.riskScore += 20;
+
+    await Alert.create({
+        userId: user._id,
+        alertType: "MULTIPLE_FAILED_LOGINS",
+        severity: "HIGH",
+        message: "User failed login 5 times"
+    });
+}
+
+    await user.save();
+
+    return res.status(400).json({
+        message: "Invalid Credentials"
+    });
+}
+user.failedLoginAttempts = 0;
+
+await user.save();
         // Generate JWT Token
         const token = jwt.sign(
             {
@@ -89,7 +109,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 role: user.role
             },
-            "mySecretKey",
+            process.env.JWT_SECRET,
             {
                 expiresIn: "1d"
             }
