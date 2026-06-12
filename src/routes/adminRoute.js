@@ -6,7 +6,9 @@ const protect = require("../middleware/authMiddleware");
 const authorize = require("../middleware/roleMiddleware");
 
 const {
-    getAdminDashboard
+    getAdminDashboard,
+    getAllAlerts,
+    unlockUser
 } = require("../controllers/adminController");
 
 router.get(
@@ -14,6 +16,20 @@ router.get(
     protect,
     authorize("ADMIN"),
     getAdminDashboard
+);
+
+router.get(
+    "/admin/alerts",
+    protect,
+    authorize("ADMIN"),
+    getAllAlerts
+);
+
+router.put(
+    "/admin/unlock/:userId",
+    protect,
+    authorize("ADMIN"),
+    unlockUser
 );
 
 module.exports = router;
