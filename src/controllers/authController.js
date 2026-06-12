@@ -70,6 +70,11 @@ const loginUser = async (req, res) => {
                 message: "Invalid Credentials"
             });
         }
+        if (!user.isActive) {
+    return res.status(403).json({
+        message: "Account Locked"
+    });
+}
 
         // Compare password
         const isMatch = await bcrypt.compare(
@@ -77,21 +82,33 @@ const loginUser = async (req, res) => {
             user.password
         );
 
-        if (!isMatch) {
+      if (!isMatch) {
 
     user.failedLoginAttempts += 1;
 
-   if (user.failedLoginAttempts === 5) {
+    if (user.failedLoginAttempts === 5) {
 
-    user.riskScore += 20;
+        user.riskScore += 20;
 
-    await Alert.create({
-        userId: user._id,
-        alertType: "MULTIPLE_FAILED_LOGINS",
-        severity: "HIGH",
-        message: "User failed login 5 times"
-    });
-}
+        await Alert.create({
+            userId: user._id,
+            alertType: "MULTIPLE_FAILED_LOGINS",
+            severity: "HIGH",
+            message: "User failed login 5 times"
+        });
+    }
+
+    if (user.failedLoginAttempts === 10) {
+
+        user.isActive = false;
+
+        await Alert.create({
+            userId: user._id,
+            alertType: "ACCOUNT_LOCKED",
+            severity: "CRITICAL",
+            message: "Account locked after 10 failed login attempts"
+        });
+    }
 
     await user.save();
 
@@ -99,21 +116,23 @@ const loginUser = async (req, res) => {
         message: "Invalid Credentials"
     });
 }
+
+// Login successful
 user.failedLoginAttempts = 0;
 
 await user.save();
-        // Generate JWT Token
-        const token = jwt.sign(
-            {
-                id: user._id,
-                email: user.email,
-                role: user.role
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
-        );
+
+const token = jwt.sign(
+    {
+        id: user._id,
+        email: user.email,
+        role: user.role
+    },
+    process.env.JWT_SECRET,
+    {
+        expiresIn: "1d"
+    }
+);
 
         res.status(200).json({
             message: "Login Successful",
