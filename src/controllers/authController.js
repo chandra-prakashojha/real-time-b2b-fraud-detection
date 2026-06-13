@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Alert = require("../models/Alert");
 const { trackLoginVelocity } = require("../services/velocityService");
+const { getFraudRisk } =
+require("../services/mlService");
 
 const registerUser = async (req, res) => {
 
@@ -121,9 +123,30 @@ const loginUser = async (req, res) => {
         }
 
         // Login successful
-        user.failedLoginAttempts = 0;
+       const fraudResult = await getFraudRisk(
+    20,
+    user.failedLoginAttempts,
+    5
+);
 
-        await user.save();
+if (fraudResult) {
+
+    user.riskScore = fraudResult.riskScore;
+
+    if (fraudResult.isSuspicious) {
+
+        await Alert.create({
+            userId: user._id,
+            alertType: "ML_FRAUD_DETECTED",
+            severity: "HIGH",
+            message: "Machine Learning model flagged user activity"
+        });
+    }
+}
+
+user.failedLoginAttempts = 0;
+
+await user.save();
 
         // Velocity Detection
         const velocityCount = await trackLoginVelocity(user._id);

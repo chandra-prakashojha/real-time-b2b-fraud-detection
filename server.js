@@ -12,6 +12,7 @@ const authRoute = require("./src/routes/authRoute");
 const adminRoute = require("./src/routes/adminRoute");
 const { connectRedis } = require("./src/config/redis");
 const rateLimiter = require("./src/middleware/rateLimiter");
+const mlRoutes = require("./src/routes/mlRoutes");
 connectDB();
 connectRedis();
 
@@ -19,6 +20,7 @@ const app = express();
 
 app.use(express.json());
 app.use(rateLimiter);
+app.use("/api", mlRoutes);
 
 app.use(loggerMiddleware);
 
