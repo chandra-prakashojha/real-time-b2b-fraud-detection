@@ -10,8 +10,10 @@ const userRoute = require("./src/routes/userRoute");
 const healthRoute = require("./src/routes/healthRoute");
 const authRoute = require("./src/routes/authRoute");
 const adminRoute = require("./src/routes/adminRoute");
+const { connectRedis } = require("./src/config/redis");
 
 connectDB();
+connectRedis();
 
 const app = express();
 
