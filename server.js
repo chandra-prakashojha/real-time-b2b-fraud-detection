@@ -11,13 +11,14 @@ const healthRoute = require("./src/routes/healthRoute");
 const authRoute = require("./src/routes/authRoute");
 const adminRoute = require("./src/routes/adminRoute");
 const { connectRedis } = require("./src/config/redis");
-
+const rateLimiter = require("./src/middleware/rateLimiter");
 connectDB();
 connectRedis();
 
 const app = express();
 
 app.use(express.json());
+app.use(rateLimiter);
 
 app.use(loggerMiddleware);
 
