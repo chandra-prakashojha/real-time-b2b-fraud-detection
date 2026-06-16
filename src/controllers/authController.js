@@ -122,35 +122,38 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Login successful
-       const fraudResult = await getFraudRisk(
-    20,
-    user.failedLoginAttempts,
-    5
-);
+        // ==========================
+        // LOGIN SUCCESSFUL
+        // ==========================
 
-if (fraudResult) {
+        // Track login velocity using Redis
+        const velocityCount = await trackLoginVelocity(
+            user._id
+        );
 
-    user.riskScore = fraudResult.riskScore;
+        // ML Fraud Detection
+        const fraudResult = await getFraudRisk(
+            20, // Dummy request count for now
+            user.failedLoginAttempts,
+            velocityCount
+        );
 
-    if (fraudResult.isSuspicious) {
+        if (fraudResult) {
 
-        await Alert.create({
-            userId: user._id,
-            alertType: "ML_FRAUD_DETECTED",
-            severity: "HIGH",
-            message: "Machine Learning model flagged user activity"
-        });
-    }
-}
+            user.riskScore = fraudResult.riskScore;
 
-user.failedLoginAttempts = 0;
+            if (fraudResult.isSuspicious) {
 
-await user.save();
+                await Alert.create({
+                    userId: user._id,
+                    alertType: "ML_FRAUD_DETECTED",
+                    severity: "HIGH",
+                    message: "Machine Learning model flagged user activity"
+                });
+            }
+        }
 
-        // Velocity Detection
-        const velocityCount = await trackLoginVelocity(user._id);
-
+        // Velocity Alert
         if (velocityCount > 5) {
 
             user.riskScore += 10;
@@ -161,9 +164,12 @@ await user.save();
                 severity: "MEDIUM",
                 message: "More than 5 successful logins within 60 seconds"
             });
-
-            await user.save();
         }
+
+        // Reset failed attempts after successful login
+        user.failedLoginAttempts = 0;
+
+        await user.save();
 
         // Generate JWT Token
         const token = jwt.sign(
