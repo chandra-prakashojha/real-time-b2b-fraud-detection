@@ -22,7 +22,7 @@ const rateLimiter = async (req, res, next) => {
 
         requests = parseInt(requests);
 
-        if (requests >= 5) {
+        if (requests >= 100) {
 
             return res.status(429).json({
                 message: "Too many requests. Try again later."

@@ -3,11 +3,17 @@ const router = express.Router();
 
 const {
   getDashboardStats,
-  getRecentAlerts
+  getRecentAlerts,
+  getAnalyticsData,
+  getFraudTrendData
 } = require("../controllers/dashboardController");
 
 router.get("/stats", getDashboardStats);
 
 router.get("/alerts", getRecentAlerts);
+
+router.get("/analytics", getAnalyticsData);
+
+router.get("/fraud-trends", getFraudTrendData);
 
 module.exports = router;

@@ -32,7 +32,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-// NEW FUNCTION
 const getRecentAlerts = async (req, res) => {
   try {
 
@@ -51,7 +50,84 @@ const getRecentAlerts = async (req, res) => {
   }
 };
 
+const getAnalyticsData = async (req, res) => {
+  try {
+
+    const severityDistribution =
+      await Alert.aggregate([
+        {
+          $group: {
+            _id: "$severity",
+            count: { $sum: 1 }
+          }
+        }
+      ]);
+
+    const formattedSeverity =
+      severityDistribution.map(item => ({
+        name: item._id,
+        value: item.count
+      }));
+
+    res.status(200).json({
+      severityDistribution: formattedSeverity
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+};
+
+const getFraudTrendData = async (req, res) => {
+  try {
+
+    const trends = await Alert.aggregate([
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt"
+            }
+          },
+          alerts: {
+            $sum: 1
+          }
+        }
+      },
+      {
+        $sort: {
+          _id: 1
+        }
+      }
+    ]);
+
+    const formattedTrends =
+      trends.map(item => ({
+        date: item._id,
+        alerts: item.alerts
+      }));
+
+    res.status(200).json(
+      formattedTrends
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+};
+
 module.exports = {
   getDashboardStats,
-  getRecentAlerts
+  getRecentAlerts,
+  getAnalyticsData,
+  getFraudTrendData
 };

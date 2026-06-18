@@ -5,6 +5,12 @@ import RiskCards from "../components/RiskCards";
 import AlertTable from "../components/AlertTable";
 import api from "../services/api";
 
+import SeverityPieChart from
+"../components/charts/SeverityPieChart";
+
+import FraudTrendChart from
+"../components/charts/FraudTrendChart";
+
 import "../styles/dashboard.css";
 
 function Dashboard() {
@@ -15,7 +21,13 @@ function Dashboard() {
     activeUsers: 0,
   });
 
-  const [alerts, setAlerts] = useState([]);
+const [alerts, setAlerts] = useState([]);
+
+const [severityData, setSeverityData] =
+  useState([]);
+
+  const [fraudTrendData, setFraudTrendData] =
+  useState([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -44,6 +56,36 @@ function Dashboard() {
 
         setAlerts(alertsResponse.data);
 
+        const analyticsResponse =
+  await api.get(
+    "/dashboard/analytics"
+  );
+
+console.log(
+  "Severity Response:",
+  analyticsResponse.data
+    .severityDistribution
+);
+
+setSeverityData(
+  analyticsResponse.data
+    .severityDistribution
+);
+
+const trendResponse =
+  await api.get(
+    "/dashboard/fraud-trends"
+  );
+
+console.log(
+  "Trend Response:",
+  trendResponse.data
+);
+
+setFraudTrendData(
+  trendResponse.data
+);
+
       } catch (error) {
         console.error(
           "Dashboard Error:",
@@ -69,9 +111,17 @@ function Dashboard() {
           padding: "20px",
         }}
       >
-        <RiskCards stats={stats} />
+<RiskCards stats={stats} />
 
-        <AlertTable alerts={alerts} />
+<SeverityPieChart
+  data={severityData}
+/>
+
+<FraudTrendChart
+  data={fraudTrendData}
+/>
+
+<AlertTable alerts={alerts} />
       </div>
     </div>
   );

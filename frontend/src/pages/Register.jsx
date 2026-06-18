@@ -1,12 +1,14 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/auth.css";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: ""
   });
@@ -24,16 +26,18 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await api.post("/login", formData);
+   await api.post("/register", formData);
+   alert("Registration Successful. Please Login.");
 
-      localStorage.setItem("token", res.data.token);
-
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-        "Login Failed"
-      );
+      console.log("Register Error:", err);
+
+setError(
+  err.response?.data?.message ||
+  err.message ||
+  "Registration Failed"
+);
     }
   };
 
@@ -43,11 +47,19 @@ function Login() {
         className="auth-card"
         onSubmit={handleSubmit}
       >
-        <h2>Fraud Detection Platform</h2>
+        <h2>Create Account</h2>
 
         {error && (
           <p className="error">{error}</p>
         )}
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          onChange={handleChange}
+          required
+        />
 
         <input
           type="email"
@@ -65,31 +77,12 @@ function Login() {
           required
         />
 
-       <button type="submit">
-  Login
-</button>
-
-<p
-  style={{
-    textAlign: "center",
-    marginTop: "10px",
-  }}
->
-  Don't have an account?{" "}
-  <span
-    onClick={() => navigate("/register")}
-    style={{
-      color: "#2563eb",
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
-  >
-    Register
-  </span>
-</p>
+        <button type="submit">
+          Register
+        </button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;
