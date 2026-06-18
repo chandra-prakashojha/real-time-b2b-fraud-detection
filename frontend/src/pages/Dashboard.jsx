@@ -15,20 +15,44 @@ function Dashboard() {
     activeUsers: 0,
   });
 
+  const [alerts, setAlerts] = useState([]);
+
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await api.get("/dashboard/stats");
+        // Dashboard Statistics
+        const statsResponse = await api.get(
+          "/dashboard/stats"
+        );
 
-        console.log(response.data);
+        console.log(
+          "Dashboard Stats:",
+          statsResponse.data
+        );
 
-        setStats(response.data);
+        setStats(statsResponse.data);
+
+        // Alerts
+      const alertsResponse = await api.get(
+  "/dashboard/alerts"
+);
+
+        console.log(
+          "Alerts:",
+          alertsResponse.data
+        );
+
+        setAlerts(alertsResponse.data);
+
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Dashboard Error:",
+          error
+        );
       }
     };
 
-    fetchStats();
+    fetchDashboardData();
   }, []);
 
   return (
@@ -46,7 +70,8 @@ function Dashboard() {
         }}
       >
         <RiskCards stats={stats} />
-        <AlertTable />
+
+        <AlertTable alerts={alerts} />
       </div>
     </div>
   );

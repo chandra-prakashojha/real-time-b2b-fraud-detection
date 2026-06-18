@@ -1,5 +1,4 @@
-
-function AlertTable() {
+function AlertTable({ alerts }) {
   return (
     <div
       style={{
@@ -19,30 +18,26 @@ function AlertTable() {
       >
         <thead>
           <tr>
-            <th>User</th>
             <th>Alert Type</th>
             <th>Severity</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>john@gmail.com</td>
-            <td>HIGH_LOGIN_VELOCITY</td>
-            <td>MEDIUM</td>
-          </tr>
-
-          <tr>
-            <td>admin@gmail.com</td>
-            <td>ML_FRAUD_DETECTED</td>
-            <td>HIGH</td>
-          </tr>
-
-          <tr>
-            <td>user@gmail.com</td>
-            <td>ACCOUNT_LOCKED</td>
-            <td>CRITICAL</td>
-          </tr>
+          {alerts.length > 0 ? (
+            alerts.map((alert) => (
+              <tr key={alert._id}>
+                <td>{alert.alertType}</td>
+                <td>{alert.severity}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="2">
+                No Alerts Found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
