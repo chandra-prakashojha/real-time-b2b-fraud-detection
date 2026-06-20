@@ -124,10 +124,75 @@ const getFraudTrendData = async (req, res) => {
 
   }
 };
+const getRiskDistribution = async (req, res) => {
+  try {
+
+    const users = await User.find(
+      {},
+      { riskScore: 1 }
+    );
+
+    const distribution = {
+      low: 0,
+      medium: 0,
+      high: 0,
+      critical: 0
+    };
+
+    users.forEach(user => {
+
+      const score =
+        user.riskScore || 0;
+
+      if (score <= 25)
+        distribution.low++;
+
+      else if (score <= 50)
+        distribution.medium++;
+
+      else if (score <= 75)
+        distribution.high++;
+
+      else
+        distribution.critical++;
+    });
+
+    res.status(200).json([
+      {
+        category: "Low",
+        users:
+          distribution.low
+      },
+      {
+        category: "Medium",
+        users:
+          distribution.medium
+      },
+      {
+        category: "High",
+        users:
+          distribution.high
+      },
+      {
+        category: "Critical",
+        users:
+          distribution.critical
+      }
+    ]);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+};
 
 module.exports = {
   getDashboardStats,
   getRecentAlerts,
   getAnalyticsData,
-  getFraudTrendData
+  getFraudTrendData,
+  getRiskDistribution
 };

@@ -20,7 +20,7 @@ const rateLimiter = async (req, res, next) => {
             return next();
         }
 
-        requests = parseInt(requests);
+        requests = parseInt(requests);  
 
         if (requests >= 100) {
 

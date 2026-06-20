@@ -6,10 +6,13 @@ import AlertTable from "../components/AlertTable";
 import api from "../services/api";
 
 import SeverityPieChart from
-"../components/charts/SeverityPieChart";
+  "../components/charts/SeverityPieChart";
 
 import FraudTrendChart from
-"../components/charts/FraudTrendChart";
+  "../components/charts/FraudTrendChart";
+
+import RiskDistributionChart from
+  "../components/charts/RiskDistributionChart";
 
 import "../styles/dashboard.css";
 
@@ -21,13 +24,17 @@ function Dashboard() {
     activeUsers: 0,
   });
 
-const [alerts, setAlerts] = useState([]);
+  const [alerts, setAlerts] = useState([]);
 
-const [severityData, setSeverityData] =
-  useState([]);
+  const [severityData, setSeverityData] =
+    useState([]);
 
   const [fraudTrendData, setFraudTrendData] =
-  useState([]);
+    useState([]);
+
+  const [riskDistributionData,
+    setRiskDistributionData] =
+    useState([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -45,9 +52,9 @@ const [severityData, setSeverityData] =
         setStats(statsResponse.data);
 
         // Alerts
-      const alertsResponse = await api.get(
-  "/dashboard/alerts"
-);
+        const alertsResponse = await api.get(
+          "/dashboard/alerts"
+        );
 
         console.log(
           "Alerts:",
@@ -56,35 +63,52 @@ const [severityData, setSeverityData] =
 
         setAlerts(alertsResponse.data);
 
+        // Severity Analytics
         const analyticsResponse =
-  await api.get(
-    "/dashboard/analytics"
-  );
+          await api.get(
+            "/dashboard/analytics"
+          );
 
-console.log(
-  "Severity Response:",
-  analyticsResponse.data
-    .severityDistribution
-);
+        console.log(
+          "Severity Response:",
+          analyticsResponse.data
+            .severityDistribution
+        );
 
-setSeverityData(
-  analyticsResponse.data
-    .severityDistribution
-);
+        setSeverityData(
+          analyticsResponse.data
+            .severityDistribution
+        );
 
-const trendResponse =
-  await api.get(
-    "/dashboard/fraud-trends"
-  );
+        // Fraud Trends
+        const trendResponse =
+          await api.get(
+            "/dashboard/fraud-trends"
+          );
 
-console.log(
-  "Trend Response:",
-  trendResponse.data
-);
+        console.log(
+          "Trend Response:",
+          trendResponse.data
+        );
 
-setFraudTrendData(
-  trendResponse.data
-);
+        setFraudTrendData(
+          trendResponse.data
+        );
+
+        // Risk Distribution
+        const riskResponse =
+          await api.get(
+            "/dashboard/risk-distribution"
+          );
+
+        console.log(
+          "Risk Distribution:",
+          riskResponse.data
+        );
+
+        setRiskDistributionData(
+          riskResponse.data
+        );
 
       } catch (error) {
         console.error(
@@ -111,17 +135,21 @@ setFraudTrendData(
           padding: "20px",
         }}
       >
-<RiskCards stats={stats} />
+        <RiskCards stats={stats} />
 
-<SeverityPieChart
-  data={severityData}
-/>
+        <SeverityPieChart
+          data={severityData}
+        />
 
-<FraudTrendChart
-  data={fraudTrendData}
-/>
+        <FraudTrendChart
+          data={fraudTrendData}
+        />
 
-<AlertTable alerts={alerts} />
+        <RiskDistributionChart
+          data={riskDistributionData}
+        />
+
+        <AlertTable alerts={alerts} />
       </div>
     </div>
   );
