@@ -5,6 +5,8 @@ import RiskCards from "../components/RiskCards";
 import AlertTable from "../components/AlertTable";
 import LiveApiLogs from "../components/LiveApiLogs";
 
+import AttackNotification from "../components/AttackNotification";
+
 import api from "../services/api";
 import socket from "../services/socket";
 
@@ -28,6 +30,12 @@ function Dashboard() {
   });
 
   const [alerts, setAlerts] = useState([]);
+
+ const [notification, setNotification] = useState({
+  alertType: "TEST_ALERT",
+  severity: "CRITICAL",
+  message: "This is a test notification"
+});
 
   const [apiLogs, setApiLogs] = useState([]);
 
@@ -55,25 +63,32 @@ function Dashboard() {
       );
     });
 
-    socket.on("new-alert", (alert) => {
+   socket.on("new-alert", (alert) => {
 
-      console.log(
-        "Live Alert Received:",
-        alert
-      );
+  console.log(
+    "Live Alert Received:",
+    alert
+  );
 
-      setAlerts(prev => [
-        alert,
-        ...prev
-      ]);
+  setAlerts(prev => [
+    alert,
+    ...prev
+  ]);
 
-      setStats(prev => ({
-        ...prev,
-        totalAlerts:
-          prev.totalAlerts + 1
-      }));
+  setNotification(alert);
 
-    });
+  setStats(prev => ({
+    ...prev,
+    totalAlerts:
+      prev.totalAlerts + 1
+  }));
+
+  // Hide notification after 5 seconds
+  setTimeout(() => {
+    setNotification(null);
+  }, 5000);
+
+});
 
     socket.on("new-api-log", (log) => {
 
@@ -209,6 +224,16 @@ function Dashboard() {
       }}
     >
       <Navbar />
+
+      <div
+  style={{
+    padding: "20px"
+  }}
+>
+  <AttackNotification
+    notification={notification}
+  />
+</div>
 
       <div
         style={{

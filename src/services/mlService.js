@@ -21,13 +21,19 @@ const getFraudRisk = async (
 
     } catch (error) {
 
-        console.log(
-            "ML Service Error:",
-            error.message
-        );
+    console.log("========== ML ERROR ==========");
 
-        return null;
+    console.log(error.message);
+
+    if (error.response) {
+        console.log("Status:", error.response.status);
+        console.log("Data:", error.response.data);
     }
+
+    console.log("==============================");
+
+    return null;
+}
 };
 
 module.exports = {

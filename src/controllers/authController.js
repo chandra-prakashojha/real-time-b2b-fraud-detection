@@ -104,18 +104,20 @@ const loginUser = async (req, res) => {
 
 global.io.emit("new-alert", alert);
 }
+if (user.failedLoginAttempts === 10) {
 
-            if (user.failedLoginAttempts === 10) {
+    user.isActive = false;
 
-                user.isActive = false;
+    const alert = await Alert.create({
+        userId: user._id,
+        alertType: "ACCOUNT_LOCKED",
+        severity: "CRITICAL",
+        message: "Account locked after 10 failed login attempts"
+    });
 
-                await Alert.create({
-                    userId: user._id,
-                    alertType: "ACCOUNT_LOCKED",
-                    severity: "CRITICAL",
-                    message: "Account locked after 10 failed login attempts"
-                });
-            }
+    global.io.emit("new-alert", alert);
+
+}
 
             await user.save();
 
