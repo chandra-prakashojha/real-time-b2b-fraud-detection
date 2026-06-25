@@ -95,13 +95,15 @@ const loginUser = async (req, res) => {
 
                 user.riskScore += 20;
 
-                await Alert.create({
-                    userId: user._id,
-                    alertType: "MULTIPLE_FAILED_LOGINS",
-                    severity: "HIGH",
-                    message: "User failed login 5 times"
-                });
-            }
+              const alert = await Alert.create({
+    userId: user._id,
+    alertType: "MULTIPLE_FAILED_LOGINS",
+    severity: "HIGH",
+    message: "User failed login 5 times"
+});
+
+global.io.emit("new-alert", alert);
+}
 
             if (user.failedLoginAttempts === 10) {
 

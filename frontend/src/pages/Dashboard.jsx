@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import RiskCards from "../components/RiskCards";
 import AlertTable from "../components/AlertTable";
+import LiveApiLogs from "../components/LiveApiLogs";
+
 import api from "../services/api";
+import socket from "../services/socket";
 
 import SeverityPieChart from
   "../components/charts/SeverityPieChart";
@@ -26,44 +29,117 @@ function Dashboard() {
 
   const [alerts, setAlerts] = useState([]);
 
+  const [apiLogs, setApiLogs] = useState([]);
+
   const [severityData, setSeverityData] =
     useState([]);
 
   const [fraudTrendData, setFraudTrendData] =
     useState([]);
 
-  const [riskDistributionData,
-    setRiskDistributionData] =
-    useState([]);
+  const [
+    riskDistributionData,
+    setRiskDistributionData
+  ] = useState([]);
+
+  // ===========================
+  // Socket.IO
+  // ===========================
 
   useEffect(() => {
+
+    socket.on("connect", () => {
+      console.log(
+        "Connected to Socket.IO:",
+        socket.id
+      );
+    });
+
+    socket.on("new-alert", (alert) => {
+
+      console.log(
+        "Live Alert Received:",
+        alert
+      );
+
+      setAlerts(prev => [
+        alert,
+        ...prev
+      ]);
+
+      setStats(prev => ({
+        ...prev,
+        totalAlerts:
+          prev.totalAlerts + 1
+      }));
+
+    });
+
+    socket.on("new-api-log", (log) => {
+
+      console.log(
+        "Live API Log:",
+        log
+      );
+
+      setApiLogs(prev => [
+        log,
+        ...prev
+      ]);
+
+    });
+
+    return () => {
+
+      socket.off("connect");
+      socket.off("new-alert");
+      socket.off("new-api-log");
+
+    };
+
+  }, []);
+
+  // ===========================
+  // Dashboard API Calls
+  // ===========================
+
+  useEffect(() => {
+
     const fetchDashboardData = async () => {
+
       try {
-        // Dashboard Statistics
-        const statsResponse = await api.get(
-          "/dashboard/stats"
-        );
+
+        // Dashboard Stats
+        const statsResponse =
+          await api.get(
+            "/dashboard/stats"
+          );
 
         console.log(
           "Dashboard Stats:",
           statsResponse.data
         );
 
-        setStats(statsResponse.data);
+        setStats(
+          statsResponse.data
+        );
 
         // Alerts
-        const alertsResponse = await api.get(
-          "/dashboard/alerts"
-        );
+        const alertsResponse =
+          await api.get(
+            "/dashboard/alerts"
+          );
 
         console.log(
           "Alerts:",
           alertsResponse.data
         );
 
-        setAlerts(alertsResponse.data);
+        setAlerts(
+          alertsResponse.data
+        );
 
-        // Severity Analytics
+        // Severity Chart
         const analyticsResponse =
           await api.get(
             "/dashboard/analytics"
@@ -111,14 +187,18 @@ function Dashboard() {
         );
 
       } catch (error) {
+
         console.error(
           "Dashboard Error:",
           error
         );
+
       }
+
     };
 
     fetchDashboardData();
+
   }, []);
 
   return (
@@ -149,7 +229,14 @@ function Dashboard() {
           data={riskDistributionData}
         />
 
-        <AlertTable alerts={alerts} />
+        <AlertTable
+          alerts={alerts}
+        />
+
+        <LiveApiLogs
+          logs={apiLogs}
+        />
+
       </div>
     </div>
   );
