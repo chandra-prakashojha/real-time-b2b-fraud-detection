@@ -1,0 +1,73 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis-fraud
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - fraud-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: backend-api
+
+    restart: unless-stopped
+
+    depends_on:
+      - redis
+      - ml-service
+
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT}
+      REDIS_URL: redis://redis:6379
+      ML_SERVICE_URL: http://ml-service:8000
+
+    ports:
+      - "5000:5000"
+    networks:
+      - fraud-network
+
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+
+    container_name: fraud-ml
+
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+    networks:
+      - fraud-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: fraud-frontend
+
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "3000:80"
+    networks:
+      - fraud-network
+
+volumes:
+  redis-data:
+networks:
+  fraud-network:
+    driver: bridge

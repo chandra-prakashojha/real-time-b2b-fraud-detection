@@ -9,7 +9,7 @@ const getFraudRisk = async (
     try {
 
         const response = await axios.post(
-            "http://localhost:8000/predict-risk",
+            `${process.env.ML_SERVICE_URL}/predict-risk`,
             {
                 request_count: requestCount,
                 failed_logins: failedLogins,
@@ -21,19 +21,18 @@ const getFraudRisk = async (
 
     } catch (error) {
 
-    console.log("========== ML ERROR ==========");
+        console.log("========== ML ERROR ==========");
+        console.log(error.message);
 
-    console.log(error.message);
+        if (error.response) {
+            console.log("Status:", error.response.status);
+            console.log("Data:", error.response.data);
+        }
 
-    if (error.response) {
-        console.log("Status:", error.response.status);
-        console.log("Data:", error.response.data);
+        console.log("==============================");
+
+        return null;
     }
-
-    console.log("==============================");
-
-    return null;
-}
 };
 
 module.exports = {
