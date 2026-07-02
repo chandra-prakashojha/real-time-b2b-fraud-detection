@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -63,7 +64,7 @@ io.on("connection", (socket) => {
 // ======================
 // Middleware
 // ======================
-
+app.use(helmet());
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
