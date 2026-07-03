@@ -1,52 +1,35 @@
 const Alert = require("../models/Alert");
 const User = require("../models/User");
 
-const unlockUser = async (req, res) => {
+const asyncHandler = require("../utils/asyncHandler");
+const AppError = require("../utils/AppError");
 
-    try {
+const unlockUser = asyncHandler(async (req, res) => {
 
-        const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.userId);
 
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-        user.isActive = true;
-        user.failedLoginAttempts = 0;
-
-        await user.save();
-
-        res.status(200).json({
-            message: "Account Unlocked Successfully"
-        });
-
-    } catch (error) {
-
-        res.status(500).json({
-            message: error.message
-        });
-
+    if (!user) {
+        throw new AppError("User not found", 404);
     }
-};
-const getAllAlerts = async (req, res) => {
 
-    try {
+    user.isActive = true;
+    user.failedLoginAttempts = 0;
 
-        const alerts = await Alert.find();
+    await user.save();
 
-        res.status(200).json(alerts);
+    res.status(200).json({
+        message: "Account Unlocked Successfully"
+    });
 
-    } catch (error) {
+});
 
-        res.status(500).json({
-            message: error.message
-        });
+const getAllAlerts = asyncHandler(async (req, res) => {
 
-    }
-};
+    const alerts = await Alert.find();
 
+    res.status(200).json(alerts);
+
+});
 
 const getAdminDashboard = (req, res) => {
 

@@ -18,6 +18,7 @@ const authRoute = require("./src/routes/authRoute");
 const adminRoute = require("./src/routes/adminRoute");
 const dashboardRoute = require("./src/routes/dashboardRoute");
 const mlRoutes = require("./src/routes/mlRoutes");
+const errorHandler = require("./src/middleware/errorHandler");
 
 // ======================
 // Database Connections
@@ -89,6 +90,7 @@ app.use("/api", authRoute);
 app.use("/api", adminRoute);
 
 app.use("/api/dashboard", dashboardRoute);
+app.use(errorHandler);
 
 // ======================
 // Start Server
