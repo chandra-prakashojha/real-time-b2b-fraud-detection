@@ -27,6 +27,8 @@ const errorHandler = require("./src/middleware/errorHandler");
 connectDB();
 connectRedis();
 
+require("./src/workers/fraudWorker");
+
 // ======================
 // Express App
 // ======================

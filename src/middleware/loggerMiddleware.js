@@ -1,6 +1,9 @@
 const ApiLog = require("../models/ApiLog");
+const logger = require("../utils/logger");
 
 const loggerMiddleware = async (req, res, next) => {
+
+    const startTime = Date.now();
 
     try {
 
@@ -14,11 +17,16 @@ const loggerMiddleware = async (req, res, next) => {
         // Emit live API log
         global.io.emit("new-api-log", log);
 
+        const responseTime = Date.now() - startTime;
+
+        logger.info(
+            `${req.method} ${req.originalUrl} | IP: ${req.ip} | Response Time: ${responseTime} ms`
+        );
+
     } catch (error) {
 
-        console.log(
-            "Logging Error:",
-            error.message
+        logger.error(
+            `Logging Error: ${error.message}`
         );
 
     }
