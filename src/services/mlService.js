@@ -14,6 +14,9 @@ const getFraudRisk = async (
                 request_count: requestCount,
                 failed_logins: failedLogins,
                 login_velocity: loginVelocity
+            },
+            {
+                timeout: 5000
             }
         );
 
@@ -22,11 +25,20 @@ const getFraudRisk = async (
     } catch (error) {
 
         console.log("========== ML ERROR ==========");
-        console.log(error.message);
 
-        if (error.response) {
-            console.log("Status:", error.response.status);
-            console.log("Data:", error.response.data);
+        if (error.code === "ECONNABORTED") {
+
+            console.log("ML Service Timeout");
+
+        } else {
+
+            console.log(error.message);
+
+            if (error.response) {
+                console.log("Status:", error.response.status);
+                console.log("Data:", error.response.data);
+            }
+
         }
 
         console.log("==============================");

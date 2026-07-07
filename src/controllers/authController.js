@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Alert = require("../models/Alert");
 
 const { trackLoginVelocity } = require("../services/velocityService");
-const { getFraudRisk } = require("../services/mlService");
+const fraudQueue = require("../queues/fraudQueue");
 
 const asyncHandler = require("../utils/asyncHandler");
 const AppError = require("../utils/AppError");
@@ -107,27 +107,26 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
     // ML Fraud Detection
-    const fraudResult = await getFraudRisk(
-        20,
-        user.failedLoginAttempts,
-        velocityCount
-    );
-
-    if (fraudResult) {
-
-        user.riskScore = fraudResult.riskScore;
-
-        if (fraudResult.isSuspicious) {
-
-            await Alert.create({
-                userId: user._id,
-                alertType: "ML_FRAUD_DETECTED",
-                severity: "HIGH",
-                message: "Machine Learning model flagged user activity"
-            });
-        }
+await fraudQueue.add(
+    "Fraud Analysis",
+    {
+        userId: user._id,
+        requestCount: 20,
+        failedLogins: user.failedLoginAttempts,
+        loginVelocity: velocityCount
+    },
+    {
+        attempts: 3,
+        backoff: {
+            type: "exponential",
+            delay: 2000
+        },
+        removeOnComplete: true,
+        removeOnFail: false
     }
+);
 
+   
     // Velocity Alert
     if (velocityCount > 5) {
 
