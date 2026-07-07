@@ -20,6 +20,9 @@ const dashboardRoute = require("./src/routes/dashboardRoute");
 const mlRoutes = require("./src/routes/mlRoutes");
 const errorHandler = require("./src/middleware/errorHandler");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./src/config/swagger");
+
 // ======================
 // Database Connections
 // ======================
@@ -67,6 +70,12 @@ io.on("connection", (socket) => {
 // ======================
 // Middleware
 // ======================
+
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec)
+);
 app.use(helmet());
 app.use(cors({
   origin: "*",
