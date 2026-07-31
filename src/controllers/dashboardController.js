@@ -2,9 +2,32 @@ const User = require("../models/User");
 const Alert = require("../models/Alert");
 
 const asyncHandler = require("../utils/asyncHandler");
+const { redisClient } = require("../config/redis");
 
 const getDashboardStats = asyncHandler(async (req, res) => {
 
+    const cacheKey = "dashboard:stats";
+
+    // Check Redis Cache
+   try {
+
+    const cachedStats = await redisClient.get(cacheKey);
+
+    if (cachedStats) {
+
+        console.log("Dashboard Stats Served From Redis Cache");
+
+        return res.status(200).json(JSON.parse(cachedStats));
+
+    }
+
+} catch (error) {
+
+    console.log("Redis Cache Read Failed:", error.message);
+
+}
+
+    // Fetch dashboard stats from MongoDB
     const totalAlerts = await Alert.countDocuments();
 
     const highRiskUsers = await User.countDocuments({
@@ -19,15 +42,33 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         alertType: "ML_FRAUD_DETECTED"
     });
 
-    res.status(200).json({
+    const stats = {
         totalAlerts,
         highRiskUsers,
         fraudEvents,
         activeUsers
-    });
+    };
+
+    // Store data in Redis for 60 seconds
+   try {
+
+    await redisClient.setEx(
+        cacheKey,
+        60,
+        JSON.stringify(stats)
+    );
+
+    console.log("Dashboard Stats Stored In Redis Cache");
+
+} catch (error) {
+
+    console.log("Redis Cache Store Failed:", error.message);
+
+}
+
+    return res.status(200).json(stats);
 
 });
-
 const getRecentAlerts = asyncHandler(async (req, res) => {
 
     const alerts = await Alert.find()
