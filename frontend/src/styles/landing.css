@@ -1,0 +1,783 @@
+
+/* ===============================
+   FRAUDSHIELD DESIGN SYSTEM
+================================= */
+
+:root {
+
+  /* Background */
+  --bg-primary: #020617;
+  --bg-secondary: #0F172A;
+  --bg-card: rgba(15, 23, 42, 0.75);
+
+  /* Borders */
+  --border-color: rgba(255,255,255,0.08);
+
+  /* Primary */
+  --primary: #2563EB;
+  --primary-light: #38BDF8;
+
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Text */
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  /* Shadows */
+  --shadow-lg:
+      0 20px 50px rgba(0,0,0,.45);
+
+  --shadow-blue:
+      0 0 60px rgba(37,99,235,.20);
+
+  /* Radius */
+
+  --radius-lg:20px;
+  --radius-xl:30px;
+
+  /* Transition */
+
+  --transition:.35s ease;
+
+}
+
+/* ===============================
+        RESET
+================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+.landing-page{
+
+    font-family:
+        Inter,
+        sans-serif;
+
+    background:
+        var(--bg-primary);
+
+    color:
+        var(--text-primary);
+
+    overflow-x:hidden;
+
+}
+
+/* ===============================
+        SECTION
+================================= */
+
+.landing-page section{
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding:
+        100px
+        8%;
+
+    position:relative;
+
+}
+
+/* ===============================
+       CONTAINER
+================================= */
+
+.landing-page .container{
+
+    width:min(1300px,100%);
+
+    margin:auto;
+
+}
+
+/* ===============================
+       HEADINGS
+================================= */
+
+.landing-page h1{
+
+    font-size:64px;
+
+    line-height:1.1;
+
+    font-weight:800;
+
+}
+
+.landing-page h2{
+
+    font-size:42px;
+
+    margin-bottom:20px;
+
+}
+
+.landing-page p{
+
+    color:
+        var(--text-secondary);
+
+    line-height:1.8;
+
+    font-size:18px;
+
+}
+
+/* ===============================
+      BUTTONS
+================================= */
+
+.landing-page .primary-btn{
+
+    background:
+        var(--primary);
+
+    color:white;
+
+    border:none;
+
+    padding:
+        16px
+        34px;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    transition:
+        var(--transition);
+
+}
+
+.landing-page .primary-btn:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--shadow-blue);
+
+}
+
+.landing-page .secondary-btn{
+
+    border:
+
+        1px solid
+        var(--border-color);
+
+    background:
+        transparent;
+
+    color:white;
+
+    padding:
+        16px
+        34px;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    transition:
+        var(--transition);
+
+}
+
+.landing-page .secondary-btn:hover{
+
+    background:
+        rgba(255,255,255,.05);
+
+}
+
+/* ===============================
+      GLASS CARD
+================================= */
+
+.landing-page .glass{
+
+    background:
+        var(--bg-card);
+
+    backdrop-filter:
+        blur(18px);
+
+    border:
+        1px solid
+        var(--border-color);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-lg);
+
+}
+/* ===================================
+            HERO SECTION
+=================================== */
+
+.hero {
+     padding-top: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at top right,
+        rgba(37,99,235,.18),
+        transparent 35%),
+
+        radial-gradient(circle at bottom left,
+        rgba(56,189,248,.08),
+        transparent 40%),
+
+        var(--bg-primary);
+
+}
+
+.hero-container{
+
+    width:min(1400px,100%);
+
+    display:grid;
+
+    grid-template-columns:
+        1.1fr
+        .9fr;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+/* ========================= */
+
+.hero-tag{
+
+    display:inline-block;
+
+    padding:10px 22px;
+
+    border-radius:50px;
+
+    background:
+        rgba(37,99,235,.15);
+
+    border:
+        1px solid
+        rgba(56,189,248,.25);
+
+    color:
+        #7dd3fc;
+
+    font-size:14px;
+
+    margin-bottom:28px;
+
+}
+
+/* ========================= */
+
+.hero h1{
+
+    font-size:68px;
+
+    line-height:1.05;
+
+    max-width:720px;
+
+    margin-bottom:28px;
+
+}
+
+.hero h1 span{
+
+    color:
+        var(--primary-light);
+
+}
+
+/* ========================= */
+
+.hero p{
+
+    max-width:650px;
+
+    font-size:19px;
+
+    margin-bottom:40px;
+
+}
+
+/* ========================= */
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:18px;
+
+}
+
+/* ========================= */
+
+.hero-image{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+/* ========================= */
+
+.browser-window{
+
+    width:100%;
+
+    max-width:520px;
+
+    padding:28px;
+
+}
+
+/* ========================= */
+
+.browser-top{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:25px;
+
+}
+
+.dot{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+}
+
+.red{
+
+    background:#ef4444;
+
+}
+
+.yellow{
+
+    background:#facc15;
+
+}
+
+.green{
+
+    background:#22c55e;
+
+}
+
+/* ========================= */
+
+.status-box{
+
+    padding:25px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    background:
+        rgba(37,99,235,.12);
+
+    margin-bottom:20px;
+
+}
+
+.status-box h4{
+
+    color:
+        var(--text-muted);
+
+    margin-bottom:10px;
+
+}
+
+.status-box h2{
+
+    color:#22c55e;
+
+    font-size:42px;
+
+}
+
+/* ========================= */
+
+.mini-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+/* ========================= */
+
+.mini-card{
+
+    padding:24px;
+
+    text-align:center;
+
+}
+
+.mini-card h3{
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+    color:
+        white;
+
+}
+
+.mini-card p{
+
+    font-size:15px;
+
+    margin:0;
+
+}
+
+/* ========================= */
+
+.scroll-indicator{
+
+    position:absolute;
+
+    bottom:35px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    text-align:center;
+
+    color:
+        var(--text-muted);
+
+    animation:
+        float 2s infinite;
+
+}
+
+.scroll-arrow{
+
+    font-size:28px;
+
+    margin-top:10px;
+
+}
+
+/* ========================= */
+
+@keyframes float{
+
+    0%{
+
+        transform:
+            translate(-50%,0);
+
+    }
+
+    50%{
+
+        transform:
+            translate(-50%,10px);
+
+    }
+
+    100%{
+
+        transform:
+            translate(-50%,0);
+
+    }
+
+}
+/* ===================================
+        CHALLENGE SECTION
+=================================== */
+
+.challenge{
+
+    background:#08101d;
+
+}
+
+.section-heading{
+
+    text-align:center;
+
+    margin-bottom:70px;
+
+}
+
+.section-tag{
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+    border-radius:40px;
+
+    background:rgba(37,99,235,.15);
+
+    color:#7dd3fc;
+
+    margin-bottom:20px;
+
+}
+
+.section-heading h2{
+
+    font-size:52px;
+
+}
+
+.section-heading span{
+
+    color:var(--primary-light);
+
+}
+
+.challenge-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:70px;
+
+    align-items:center;
+
+}
+
+.challenge-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+.challenge-card{
+
+    padding:40px;
+
+}
+
+.challenge-card h3{
+
+    margin-bottom:30px;
+
+    font-size:28px;
+
+}
+
+.challenge-card ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+    list-style:none;
+
+}
+
+.challenge-card li{
+
+    color:var(--text-secondary);
+
+    line-height:1.8;
+
+    position:relative;
+
+    padding-left:28px;
+
+}
+
+.challenge-card li::before{
+
+    content:"✔";
+
+    position:absolute;
+
+    left:0;
+
+    color:#22c55e;
+
+}
+/* ===================================
+        LANDING NAVBAR
+=================================== */
+
+.landing-nav-links{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:38px;
+
+    list-style:none;
+
+    margin:0;
+
+    padding:0;
+
+}
+
+.landing-nav-links a{
+    text-decoration:none;
+    color:var(--text-secondary);
+    transition:.3s;
+}
+
+.landing-nav-links a:hover{
+    color:white;
+}
+
+.landing-nav-container{
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:0 auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:40px;
+
+}
+.landing-navbar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    z-index:1000;
+
+    padding:18px 4%;
+
+    backdrop-filter:blur(20px);
+
+    background:rgba(2,6,23,.85);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.landing-logo{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:white;
+
+    white-space:nowrap;
+
+}
+
+.landing-login-btn{
+
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #38BDF8
+    );
+
+    color:white;
+
+    border:none;
+
+    border-radius:50px;
+
+    padding:14px 28px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:all .3s ease;
+
+}
+
+.landing-login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 30px rgba(37,99,235,.35);
+
+}

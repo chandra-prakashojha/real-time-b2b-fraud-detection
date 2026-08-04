@@ -3,6 +3,19 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/auth.css";
 
+import HeroSection from "../components/landing/HeroSection";
+import ChallengeSection from "../components/landing/ChallengeSection";
+import WorkflowSection from "../components/landing/WorkflowSection";
+import FeaturesSection from "../components/landing/FeaturesSection";
+import DashboardSection from "../components/landing/DashboardSection";
+import TrustSection from "../components/landing/TrustSection";
+import SecureAccess from "../components/landing/SecureAccess";
+import Footer from "../components/landing/Footer";
+import LandingNavbar from "../components/landing/LandingNavbar";
+
+
+import "../styles/landing.css";
+
 function Login() {
   const navigate = useNavigate();
 
@@ -37,59 +50,35 @@ function Login() {
     }
   };
 
-  return (
-    <div className="auth-container">
-      <form
-        className="auth-card"
-        onSubmit={handleSubmit}
-      >
-        <h2>Fraud Detection Platform</h2>
+ return (
+ <div className="landing-page">
 
-        {error && (
-          <p className="error">{error}</p>
-        )}
+    <LandingNavbar />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
+    <HeroSection />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
+    <ChallengeSection />
 
-       <button type="submit">
-  Login
-</button>
+    <WorkflowSection />
 
-<p
-  style={{
-    textAlign: "center",
-    marginTop: "10px",
-  }}
->
-  Don't have an account?{" "}
-  <span
-    onClick={() => navigate("/register")}
-    style={{
-      color: "#2563eb",
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
-  >
-    Register
-  </span>
-</p>
-      </form>
-    </div>
-  );
+    <FeaturesSection />
+
+    <DashboardSection />
+
+    <TrustSection />
+
+    <SecureAccess
+      formData={formData}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      error={error}
+      navigate={navigate}
+    />
+
+    <Footer />
+
+</div>
+);
 }
 
 export default Login;
