@@ -42,8 +42,7 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <section className="features">
-
+   <section id="features" className="features">
       <div className="container">
 
         <div className="section-heading">

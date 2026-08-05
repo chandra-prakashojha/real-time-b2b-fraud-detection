@@ -3,7 +3,7 @@ import "../../styles/landing.css";
 
 function WorkflowSection() {
   return (
-    <section className="workflow">
+   <section id="workflow" className="workflow">
 
       <div className="container">
 

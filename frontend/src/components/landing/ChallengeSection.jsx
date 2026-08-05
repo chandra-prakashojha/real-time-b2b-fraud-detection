@@ -3,8 +3,7 @@ import "../../styles/landing.css";
 
 function ChallengeSection() {
   return (
-    <section className="challenge">
-
+   <section id="challenge" className="challenge">
       <div className="container">
 
         <div className="section-heading">

@@ -24,9 +24,12 @@ function LandingNavbar() {
 
         </ul>
 
-        <button className="landing-login-btn">
-          Secure Access
-        </button>
+       <a
+    href="#access"
+    className="landing-login-btn"
+>
+    Secure Access
+</a>
 
       </div>
 

@@ -9,7 +9,7 @@ function SecureAccess({
   navigate,
 }) {
   return (
-    <section className="secure-access">
+   <section id="access" className="secure-access">
 
       <div className="container">
 

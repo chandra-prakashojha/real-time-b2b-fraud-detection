@@ -686,13 +686,51 @@ html{
 }
 
 .landing-nav-links a{
+
+    position:relative;
+
     text-decoration:none;
+
     color:var(--text-secondary);
+
+    font-weight:500;
+
     transition:.3s;
+
+    padding:8px 0;
+
+}
+
+.landing-nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--primary-light);
+
+    transition:width .3s ease;
+
 }
 
 .landing-nav-links a:hover{
+
     color:white;
+
+}
+
+.landing-nav-links a:hover::after{
+
+    width:100%;
+
 }
 
 .landing-nav-container{
@@ -779,5 +817,116 @@ html{
     transform:translateY(-2px);
 
     box-shadow:0 10px 30px rgba(37,99,235,.35);
+
+}
+/* ===================================
+        SECURE ACCESS
+=================================== */
+
+.secure-access{
+
+    background:var(--bg-secondary);
+
+}
+
+.access-wrapper{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+.access-form{
+
+    padding:45px;
+
+}
+
+.access-form h2{
+
+    margin-bottom:10px;
+
+}
+
+.access-form p{
+
+    margin-bottom:25px;
+
+}
+
+.access-form form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.access-form input{
+
+    width:100%;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    background:#111827;
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+.access-form input:focus{
+
+    outline:none;
+
+    border-color:var(--primary-light);
+
+}
+
+.access-form button{
+
+    margin-top:10px;
+
+    width:100%;
+
+}
+
+.register-link{
+
+    margin-top:20px;
+
+    text-align:center;
+
+}
+
+.register-link span{
+
+    color:var(--primary-light);
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    margin-left:6px;
+
+}
+
+.demo-info{
+
+    margin-top:35px;
+
+    padding:30px;
 
 }

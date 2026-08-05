@@ -3,7 +3,7 @@ import "../../styles/landing.css";
 
 function DashboardSection() {
   return (
-    <section className="dashboard-showcase">
+    <section id="dashboard" className="dashboard-showcase">
 
       <div className="container">
 
