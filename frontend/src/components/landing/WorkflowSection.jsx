@@ -1,77 +1,105 @@
-
 import "../../styles/landing.css";
 
 function WorkflowSection() {
-  return (
-   <section id="workflow" className="workflow">
+  const pipeline = [
+    {
+      step: "01",
+      title: "JWT Authentication",
+      description:
+        "Validate every incoming request before allowing access to protected APIs."
+    },
+    {
+      step: "02",
+      title: "Redis Rate Limiting",
+      description:
+        "Monitor request frequency and prevent abuse or brute-force attempts."
+    },
+    {
+      step: "03",
+      title: "AI Risk Engine",
+      description:
+        "Analyze request behavior using machine learning anomaly detection."
+    },
+    {
+      step: "04",
+      title: "Risk Evaluation",
+      description:
+        "Generate LOW, MEDIUM or HIGH fraud risk scores in real time."
+    },
+    {
+      step: "05",
+      title: "Security Dashboard",
+      description:
+        "Visualize alerts, analytics and live security events for administrators."
+    }
+  ];
 
+  return (
+    <section
+      id="workflow"
+      className="workflow"
+    >
       <div className="container">
 
-        <div className="section-heading">
+        <div className="workflow-header">
 
-          <span className="section-tag">
-            Security Workflow
+          <span className="workflow-tag">
+            Request Lifecycle
           </span>
 
           <h2>
-            Every API Request Passes Through
-            <span> Multiple Security Layers</span>
+            Every Request.
+            <br />
+            Every Layer.
+            <br />
+            Every Decision.
           </h2>
 
-          <p className="workflow-intro">
-            FraudShield Enterprise follows a layered security approach where
-            every incoming API request is analyzed through multiple intelligent
-            checkpoints before reaching the application.
+          <p>
+            Every API request passes through multiple security
+            checkpoints before reaching your application.
           </p>
 
         </div>
 
-        <div className="workflow-grid">
+        <div className="pipeline">
 
-          <div className="workflow-step">
-            <div className="step-number">01</div>
-            <h3>Authentication</h3>
-            <p>
-              Every request is authenticated using JWT before accessing protected resources.
-            </p>
+          <div className="request-node">
+            Client Request
           </div>
 
-          <div className="workflow-step">
-            <div className="step-number">02</div>
-            <h3>Behavior Analysis</h3>
-            <p>
-              User activity and request behavior are continuously analyzed for suspicious patterns.
-            </p>
-          </div>
+          {pipeline.map((item, index) => (
 
-          <div className="workflow-step">
-            <div className="step-number">03</div>
-            <h3>Rate Limiting</h3>
-            <p>
-              Intelligent Redis-powered controls prevent brute-force attacks and request flooding.
-            </p>
-          </div>
+            <div
+              className="pipeline-item"
+              key={index}
+            >
 
-          <div className="workflow-step">
-            <div className="step-number">04</div>
-            <h3>AI Risk Detection</h3>
-            <p>
-              Machine learning evaluates every request and generates a dynamic fraud risk score.
-            </p>
-          </div>
+              <div className="pipeline-line" />
 
-          <div className="workflow-step">
-            <div className="step-number">05</div>
-            <h3>Threat Response</h3>
-            <p>
-              Suspicious activities trigger real-time alerts and are immediately visible on the dashboard.
-            </p>
-          </div>
+              <div className="pipeline-card">
+
+                <span className="pipeline-step">
+                  {item.step}
+                </span>
+
+                <h3>
+                  {item.title}
+                </h3>
+
+                <p>
+                  {item.description}
+                </p>
+
+              </div>
+
+            </div>
+
+          ))}
 
         </div>
 
       </div>
-
     </section>
   );
 }

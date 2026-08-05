@@ -930,3 +930,235 @@ html{
     padding:30px;
 
 }
+/* ===================================
+        SECURITY PIPELINE
+=================================== */
+
+/* ==================================================
+                REQUEST LIFECYCLE
+================================================== */
+
+.workflow{
+
+    background:#050B17;
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:140px 8%;
+
+}
+
+/* ---------------- Header ---------------- */
+
+.workflow-header{
+
+    max-width:700px;
+
+    margin:0 auto 100px;
+
+    text-align:center;
+
+}
+
+.workflow-tag{
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+    border:1px solid rgba(56,189,248,.25);
+
+    border-radius:50px;
+
+    color:#7DD3FC;
+
+    background:rgba(37,99,235,.08);
+
+    font-size:14px;
+
+    letter-spacing:.8px;
+
+    margin-bottom:24px;
+
+}
+
+.workflow-header h2{
+
+    font-size:58px;
+
+    line-height:1.15;
+
+    margin-bottom:25px;
+
+    color:white;
+
+}
+
+.workflow-header p{
+
+    font-size:19px;
+
+    color:#94A3B8;
+
+    line-height:1.8;
+
+}
+
+/* ---------------- Pipeline ---------------- */
+
+.pipeline{
+
+    width:720px;
+
+    margin:0 auto;
+
+    position:relative;
+
+}
+
+/* Client Request */
+
+.request-node{
+
+    width:220px;
+
+    margin:0 auto 50px;
+
+    padding:18px;
+
+    text-align:center;
+
+    border-radius:16px;
+
+    background:rgba(37,99,235,.08);
+
+    border:1px solid rgba(56,189,248,.18);
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+    color:white;
+
+}
+
+/* ---------------- Item ---------------- */
+
+.pipeline-item{
+
+    position:relative;
+
+    padding-bottom:55px;
+
+}
+
+.pipeline-line{
+
+    width:2px;
+
+    height:60px;
+
+    margin:0 auto;
+
+    background:linear-gradient(
+        to bottom,
+        #38BDF8,
+        rgba(56,189,248,.10)
+    );
+
+}
+
+/* ---------------- Card ---------------- */
+
+.pipeline-card{
+
+    width:100%;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:38px;
+
+    backdrop-filter:blur(18px);
+
+    transition:.35s ease;
+
+}
+
+.pipeline-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#38BDF8;
+
+    box-shadow:
+        0 20px 45px rgba(37,99,235,.18);
+
+}
+
+/* ---------------- Number ---------------- */
+
+.pipeline-step{
+
+    color:#38BDF8;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
+
+/* ---------------- Title ---------------- */
+
+.pipeline-card h3{
+
+    margin-top:14px;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:white;
+
+}
+
+/* ---------------- Text ---------------- */
+
+.pipeline-card p{
+
+    margin-top:18px;
+
+    color:#94A3B8;
+
+    line-height:1.8;
+
+    font-size:17px;
+
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media(max-width:900px){
+
+    .pipeline{
+
+        width:100%;
+
+    }
+
+    .workflow-header h2{
+
+        font-size:42px;
+
+    }
+
+}
