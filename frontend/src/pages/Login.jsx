@@ -12,7 +12,8 @@ import TrustSection from "../components/landing/TrustSection";
 import SecureAccess from "../components/landing/SecureAccess";
 import Footer from "../components/landing/Footer";
 import LandingNavbar from "../components/landing/LandingNavbar";
-
+import DashboardPreview
+  from "../components/landing/DashboardPreview";
 
 import "../styles/landing.css";
 
@@ -63,7 +64,8 @@ function Login() {
 
     <FeaturesSection />
 
-    <DashboardSection />
+   
+    <DashboardPreview />
 
     <TrustSection />
 
