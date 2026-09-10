@@ -1,0 +1,58 @@
+[1mdiff --git a/src/routes/dashboardRoute.js b/src/routes/dashboardRoute.js[m
+[1mindex 84d2769..070e46f 100644[m
+[1m--- a/src/routes/dashboardRoute.js[m
+[1m+++ b/src/routes/dashboardRoute.js[m
+[36m@@ -1,6 +1,10 @@[m
+ const express = require("express");[m
+[32m+[m
+ const router = express.Router();[m
+ [m
+[32m+[m[32mconst protect = require("../middleware/authMiddleware");[m
+[32m+[m[32mconst authorize = require("../middleware/roleMiddleware");[m
+[32m+[m
+ const {[m
+   getDashboardStats,[m
+   getRecentAlerts,[m
+[36m@@ -9,16 +13,38 @@[m [mconst {[m
+   getRiskDistribution[m
+ } = require("../controllers/dashboardController");[m
+ [m
+[31m-router.get("/stats", getDashboardStats);[m
+[32m+[m[32mrouter.get([m
+[32m+[m[32m  "/stats",[m
+[32m+[m[32m  protect,[m
+[32m+[m[32m  authorize("ADMIN"),[m
+[32m+[m[32m  getDashboardStats[m
+[32m+[m[32m);[m
+ [m
+[31m-router.get("/alerts", getRecentAlerts);[m
+[32m+[m[32mrouter.get([m
+[32m+[m[32m  "/alerts",[m
+[32m+[m[32m  protect,[m
+[32m+[m[32m  authorize("ADMIN"),[m
+[32m+[m[32m  getRecentAlerts[m
+[32m+[m[32m);[m
+ [m
+[31m-router.get("/analytics", getAnalyticsData);[m
+[32m+[m[32mrouter.get([m
+[32m+[m[32m  "/analytics",[m
+[32m+[m[32m  protect,[m
+[32m+[m[32m  authorize("ADMIN"),[m
+[32m+[m[32m  getAnalyticsData[m
+[32m+[m[32m);[m
+ [m
+[31m-router.get("/fraud-trends", getFraudTrendData);[m
+[32m+[m[32mrouter.get([m
+[32m+[m[32m  "/fraud-trends",[m
+[32m+[m[32m  protect,[m
+[32m+[m[32m  authorize("ADMIN"),[m
+[32m+[m[32m  getFraudTrendData[m
+[32m+[m[32m);[m
+ [m
+ router.get([m
+   "/risk-distribution",[m
+[32m+[m[32m  protect,[m
+[32m+[m[32m  authorize("ADMIN"),[m
+   getRiskDistribution[m
+ );[m
+ [m
