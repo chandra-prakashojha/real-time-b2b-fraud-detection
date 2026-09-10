@@ -3,15 +3,20 @@ import "../../styles/landing.css";
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer className="landing-footer">
 
       <div className="container">
 
         <div className="footer-grid">
 
+          {/* Brand */}
+
           <div className="footer-brand">
 
-            <h2>🛡 FraudShield Enterprise</h2>
+            <div className="footer-logo">
+              <span>◇</span>
+              FraudShield Enterprise
+            </div>
 
             <p>
               AI-powered API Security & Real-Time Fraud Detection
@@ -22,55 +27,118 @@ function Footer() {
 
           </div>
 
+
+          {/* Platform */}
+
           <div className="footer-column">
 
-            <h3>Platform</h3>
+            <h3>
+              Platform
+            </h3>
 
             <ul>
 
-              <li>API Security</li>
+              <li>
+                <a href="#features">
+                  API Security
+                </a>
+              </li>
 
-              <li>Threat Detection</li>
+              <li>
+                <a href="#features">
+                  Threat Detection
+                </a>
+              </li>
 
-              <li>Live Monitoring</li>
+              <li>
+                <a href="#dashboard">
+                  Live Monitoring
+                </a>
+              </li>
 
-              <li>Fraud Analytics</li>
+              <li>
+                <a href="#dashboard">
+                  Fraud Analytics
+                </a>
+              </li>
 
             </ul>
 
           </div>
 
+
+          {/* Solutions */}
+
           <div className="footer-column">
 
-            <h3>Solutions</h3>
+            <h3>
+              Solutions
+            </h3>
 
             <ul>
 
-              <li>Enterprise APIs</li>
+              <li>
+                <a href="#access">
+                  Enterprise APIs
+                </a>
+              </li>
 
-              <li>Authentication</li>
+              <li>
+                <a href="#access">
+                  Authentication
+                </a>
+              </li>
 
-              <li>Rate Limiting</li>
+              <li>
+                <a href="#features">
+                  Rate Limiting
+                </a>
+              </li>
 
-              <li>Machine Learning</li>
+              <li>
+                <a href="#features">
+                  Machine Learning
+                </a>
+              </li>
 
             </ul>
 
           </div>
 
+
+          {/* Project */}
+
           <div className="footer-column">
 
-            <h3>Project</h3>
+            <h3>
+              Project
+            </h3>
 
             <ul>
 
-              <li>Documentation</li>
+              <li>
+                <a href="#workflow">
+                  Architecture
+                </a>
+              </li>
 
-              <li>Architecture</li>
+              <li>
+                <a href="#dashboard">
+                  Dashboard
+                </a>
+              </li>
 
-              <li>GitHub</li>
+              <li>
+                <a href="#access">
+                  Secure Access
+                </a>
+              </li>
 
-              <li>Contact</li>
+              <li>
+                <a href="#hero">
+                  Back to Top
+                </a>
+              </li>
 
             </ul>
 
@@ -78,12 +146,19 @@ function Footer() {
 
         </div>
 
+
+        {/* Bottom */}
+
         <div className="footer-bottom">
 
           <p>
             © 2026 FraudShield Enterprise.
             All Rights Reserved.
           </p>
+
+          <span>
+            AI-Powered API Security & Fraud Detection
+          </span>
 
         </div>
 

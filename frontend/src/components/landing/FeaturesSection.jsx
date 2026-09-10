@@ -1,39 +1,38 @@
-
 import "../../styles/landing.css";
 
 const features = [
   {
-    icon: "🧠",
+    number: "01",
     title: "AI Fraud Detection",
     description:
       "Continuously analyzes user behavior and API requests using machine learning to identify suspicious activities before they become security incidents."
   },
   {
-    icon: "🔐",
+    number: "02",
     title: "Enterprise Authentication",
     description:
       "Protect sensitive resources through secure JWT authentication and Role-Based Access Control for enterprise-grade access management."
   },
   {
-    icon: "⚡",
+    number: "03",
     title: "Real-Time Monitoring",
     description:
       "Track API traffic, suspicious requests, and security events instantly through a centralized monitoring dashboard."
   },
   {
-    icon: "🚦",
+    number: "04",
     title: "Adaptive Rate Limiting",
     description:
       "Prevent brute-force attacks and excessive traffic using intelligent Redis-powered request throttling."
   },
   {
-    icon: "📊",
+    number: "05",
     title: "Threat Analytics",
     description:
       "Gain complete visibility into fraud trends, security alerts, and risk distribution through interactive analytics."
   },
   {
-    icon: "🛡",
+    number: "06",
     title: "Multi-Layer Protection",
     description:
       "Combine authentication, monitoring, AI detection, and intelligent security controls into one unified protection platform."
@@ -42,8 +41,14 @@ const features = [
 
 function FeaturesSection() {
   return (
-   <section id="features" className="features">
+    <section
+      id="features"
+      className="features-section"
+    >
+
       <div className="container">
+
+        {/* Section Header */}
 
         <div className="section-heading">
 
@@ -65,28 +70,37 @@ function FeaturesSection() {
 
         </div>
 
+
+        {/* Feature Grid */}
+
         <div className="features-grid">
 
-          {features.map((feature, index) => (
+          {features.map((feature) => (
 
-            <div
-              key={index}
-              className="feature-card glass"
+            <article
+              key={feature.number}
+              className="feature-card"
             >
 
-              <div className="feature-icon">
-                {feature.icon}
+              <div className="feature-number">
+                {feature.number}
               </div>
 
-              <h3>
-                {feature.title}
-              </h3>
+              <div className="feature-content">
 
-              <p>
-                {feature.description}
-              </p>
+                <h3>
+                  {feature.title}
+                </h3>
 
-            </div>
+                <p>
+                  {feature.description}
+                </p>
+
+              </div>
+
+              <div className="feature-line"></div>
+
+            </article>
 
           ))}
 

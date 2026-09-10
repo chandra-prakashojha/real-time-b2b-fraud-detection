@@ -1,4 +1,3 @@
-
 import "../../styles/landing.css";
 
 function SecureAccess({
@@ -9,13 +8,18 @@ function SecureAccess({
   navigate,
 }) {
   return (
-   <section id="access" className="secure-access">
+    <section
+      id="access"
+      className="secure-access-section"
+    >
 
       <div className="container">
 
         <div className="access-wrapper">
 
-          {/* Left Side */}
+          {/* =========================
+                LEFT SIDE
+          ========================== */}
 
           <div className="access-content">
 
@@ -37,72 +41,147 @@ function SecureAccess({
               businesses.
             </p>
 
-            <div className="demo-info glass">
 
-              <h3>Demo Environment</h3>
+            {/* Security capabilities */}
 
-              <p>
-                Experience the complete platform using the
-                administrator account provided for demonstration
-                purposes.
-              </p>
+            <div className="access-highlights">
 
-              <strong>Email:</strong>
+              <div className="access-highlight">
 
-              <p>
-                admin@fraudshield.com
-              </p>
+                <span className="access-highlight-number">
+                  01
+                </span>
 
-              <strong>Password:</strong>
+                <div>
+                  <h3>
+                    Protected Access
+                  </h3>
 
-              <p>
-                ********
-              </p>
+                  <p>
+                    JWT authentication and role-based
+                    authorization protect sensitive resources.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div className="access-highlight">
+
+                <span className="access-highlight-number">
+                  02
+                </span>
+
+                <div>
+                  <h3>
+                    Real-Time Intelligence
+                  </h3>
+
+                  <p>
+                    Monitor fraud events, API activity and
+                    security alerts from one centralized dashboard.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div className="access-highlight">
+
+                <span className="access-highlight-number">
+                  03
+                </span>
+
+                <div>
+                  <h3>
+                    Enterprise Security
+                  </h3>
+
+                  <p>
+                    Multi-layer protection combines authentication,
+                    rate limiting and AI-powered risk analysis.
+                  </p>
+                </div>
+
+              </div>
 
             </div>
 
           </div>
 
-          {/* Right Side */}
+
+          {/* =========================
+                LOGIN FORM
+          ========================== */}
 
           <div className="access-form glass">
 
-            <h2>
-              Welcome Back
-            </h2>
+            <div className="access-form-header">
 
-            <p>
-              Sign in to continue
-            </p>
+              <span className="access-form-tag">
+                AUTHENTICATED ACCESS
+              </span>
+
+              <h2>
+                Welcome Back
+              </h2>
+
+              <p>
+                Sign in to continue to your security dashboard.
+              </p>
+
+            </div>
+
 
             {error && (
-              <p className="error">
+
+              <div className="access-error">
                 {error}
-              </p>
+              </div>
+
             )}
+
 
             <form onSubmit={handleSubmit}>
 
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+              <div className="access-field">
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+                <label>
+                  Email Address
+                </label>
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+
+              <div className="access-field">
+
+                <label>
+                  Password
+                </label>
+
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
 
               <button
-                className="primary-btn"
+                className="primary-btn access-submit"
                 type="submit"
               >
                 Secure Login
@@ -110,17 +189,21 @@ function SecureAccess({
 
             </form>
 
-            <p className="register-link">
 
-              Don't have an account?
+            <div className="register-link">
 
-              <span
-                onClick={() => navigate("/register")}
-              >
-                Register
+              <span>
+                Don't have an account?
               </span>
 
-            </p>
+              <button
+                type="button"
+                onClick={() => navigate("/register")}
+              >
+                Create an account
+              </button>
+
+            </div>
 
           </div>
 

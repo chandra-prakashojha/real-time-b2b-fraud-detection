@@ -1,9 +1,32 @@
-
 import "../../styles/landing.css";
 
 function TrustSection() {
+  const trustPoints = [
+    {
+      number: "01",
+      title: "Enterprise Ready",
+      description:
+        "Built using a scalable architecture capable of protecting enterprise-grade applications while maintaining high availability and performance."
+    },
+    {
+      number: "02",
+      title: "AI-Driven Intelligence",
+      description:
+        "Machine learning continuously analyzes API behavior to identify suspicious activities that traditional rule-based systems often miss."
+    },
+    {
+      number: "03",
+      title: "Real-Time Visibility",
+      description:
+        "Live dashboards, instant alerts, and centralized monitoring enable administrators to respond quickly to evolving security threats."
+    }
+  ];
+
   return (
-    <section className="trust">
+    <section
+      id="trust"
+      className="trust-section"
+    >
 
       <div className="container">
 
@@ -27,43 +50,37 @@ function TrustSection() {
 
         </div>
 
+
         <div className="trust-grid">
 
-          <div className="trust-card glass">
+          {trustPoints.map((point) => (
 
-            <h3>Enterprise Ready</h3>
+            <article
+              key={point.number}
+              className="trust-card"
+            >
 
-            <p>
-              Built using a scalable architecture capable of
-              protecting enterprise-grade applications while
-              maintaining high availability and performance.
-            </p>
+              <div className="trust-number">
+                {point.number}
+              </div>
 
-          </div>
+              <div className="trust-content">
 
-          <div className="trust-card glass">
+                <h3>
+                  {point.title}
+                </h3>
 
-            <h3>AI-Driven Intelligence</h3>
+                <p>
+                  {point.description}
+                </p>
 
-            <p>
-              Machine learning continuously analyzes API
-              behavior to identify suspicious activities
-              that traditional rule-based systems often miss.
-            </p>
+              </div>
 
-          </div>
+              <div className="trust-accent"></div>
 
-          <div className="trust-card glass">
+            </article>
 
-            <h3>Real-Time Visibility</h3>
-
-            <p>
-              Live dashboards, instant alerts, and centralized
-              monitoring enable administrators to respond
-              quickly to evolving security threats.
-            </p>
-
-          </div>
+          ))}
 
         </div>
 
