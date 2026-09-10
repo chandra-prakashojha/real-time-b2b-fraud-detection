@@ -1,10 +1,32 @@
 const axios = require("axios");
+const {
+    MLCircuitBreaker
+} = require("./mlCircuitBreaker");
+
+const mlCircuitBreaker = new MLCircuitBreaker({
+    failureThreshold: 3,
+    resetTimeout: 30000
+});
 
 const getFraudRisk = async (
     requestCount,
     failedLogins,
     loginVelocity
 ) => {
+
+    // Check circuit state before calling ML service
+    if (!mlCircuitBreaker.canRequest()) {
+
+        console.log(
+            "[ML CIRCUIT] OPEN - ML request blocked"
+        );
+
+        return {
+            available: false,
+            fallback: true,
+            reason: "ML_SERVICE_CIRCUIT_OPEN"
+        };
+    }
 
     try {
 
@@ -20,7 +42,14 @@ const getFraudRisk = async (
             }
         );
 
-        return response.data;
+        // ML service responded successfully
+        mlCircuitBreaker.recordSuccess();
+
+        return {
+            available: true,
+            fallback: false,
+            data: response.data
+        };
 
     } catch (error) {
 
@@ -38,15 +67,29 @@ const getFraudRisk = async (
                 console.log("Status:", error.response.status);
                 console.log("Data:", error.response.data);
             }
-
         }
 
         console.log("==============================");
 
-        return null;
+        // Record ML failure
+        mlCircuitBreaker.recordFailure();
+
+        return {
+            available: false,
+            fallback: true,
+            reason:
+                error.code === "ECONNABORTED"
+                    ? "ML_SERVICE_TIMEOUT"
+                    : "ML_SERVICE_UNAVAILABLE"
+        };
     }
 };
 
+const getMLCircuitStatus = () => {
+    return mlCircuitBreaker.getState();
+};
+
 module.exports = {
-    getFraudRisk
+    getFraudRisk,
+    getMLCircuitStatus
 };

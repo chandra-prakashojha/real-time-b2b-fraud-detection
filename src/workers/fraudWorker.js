@@ -15,7 +15,6 @@ const fraudWorker = new Worker(
     async (job) => {
 
         console.log("Processing Fraud Job...");
-
         console.log(job.data);
 
         const {
@@ -37,21 +36,49 @@ const fraudWorker = new Worker(
             loginVelocity
         );
 
-        if (!fraudResult) {
-            throw new Error("ML Service Unavailable");
+        // ==========================================
+        // ML SERVICE UNAVAILABLE - SAFE FALLBACK
+        // ==========================================
+
+        if (!fraudResult.available) {
+
+            console.log(
+                `[FRAUD WORKER] ML unavailable: ${fraudResult.reason}`
+            );
+
+            const alert = await Alert.create({
+                userId: user._id,
+                alertType: "ML_SERVICE_UNAVAILABLE",
+                severity: "MEDIUM",
+                message:
+                    "Fraud analysis could not be completed because the ML service is temporarily unavailable"
+            });
+
+            global.io.emit("new-alert", alert);
+
+            // Do not fail the job.
+            // The API remains operational even when ML is down.
+            return;
         }
 
-        user.riskScore = fraudResult.riskScore;
+        // ==========================================
+        // ML RESULT AVAILABLE
+        // ==========================================
+
+        const result = fraudResult.data;
+
+        user.riskScore = result.riskScore;
 
         await user.save();
 
-        if (fraudResult.isSuspicious) {
+        if (result.isSuspicious) {
 
             const alert = await Alert.create({
                 userId: user._id,
                 alertType: "ML_FRAUD_DETECTED",
                 severity: "HIGH",
-                message: "Machine Learning model flagged user activity"
+                message:
+                    "Machine Learning model flagged user activity"
             });
 
             global.io.emit("new-alert", alert);
@@ -60,7 +87,6 @@ const fraudWorker = new Worker(
         console.log(
             `Fraud Analysis Completed for User: ${user.email}`
         );
-
     },
     {
         connection
@@ -68,11 +94,16 @@ const fraudWorker = new Worker(
 );
 
 fraudWorker.on("completed", (job) => {
-    console.log(`Job ${job.id} completed successfully.`);
+    console.log(
+        `Job ${job.id} completed successfully.`
+    );
 });
 
 fraudWorker.on("failed", (job, err) => {
-    console.log(`Job ${job.id} failed.`);
+    console.log(
+        `Job ${job.id} failed.`
+    );
+
     console.log(err.message);
 });
 
